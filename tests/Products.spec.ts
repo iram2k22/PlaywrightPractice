@@ -43,9 +43,10 @@ test(
   async ({ page }) => {
     await step.addToCart(page, Product.Backpack);
     await step.addToCart(page, Product.BikeLight);
+    // BROKEN ON PURPOSE to demo a failing build: expects 3, the cart has 2
     await expect(
       page.locator(l.inventoryPage.cartBadge),
-      "Cart badge shows 2",
-    ).toHaveText("2");
+      "Cart badge shows 3",
+    ).toHaveText("3");
   },
 );
