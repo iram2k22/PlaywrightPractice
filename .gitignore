@@ -1,6 +1,20 @@
+# Dependencies (npm ci reinstalls them)
 node_modules/
+
+# Playwright output, recreated on every run
 test-results/
 playwright-report/
+blob-report/
 reports/
+playwright/.cache/
+
+# Personal / local only
 screenshot_photos/
+learn-ts/
+.env
+*.log
+
+# OS and editor clutter
 .DS_Store
+.vscode/
+.idea/
