@@ -13,7 +13,6 @@ export default defineConfig({
   reporter: [
     ["html"],
     ["list"],
-    ["json", { outputFile: "reports/test-results.json" }],
     /* Read by Jenkins' junit step for the test results page */
     ["junit", { outputFile: "reports/junit.xml" }],
   ],

@@ -8,7 +8,6 @@ Layered framework against the public demo site https://www.saucedemo.com.
     src/data     types.ts, enums.ts, baseData.ts
     src/pages    locators.ts (selectors), steps.ts (actions)
     tests        *.spec.ts (one file per flow)
-    files/       static assets for upload tests (empty here)
 
 ## First-time setup
 
