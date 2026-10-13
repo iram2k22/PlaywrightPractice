@@ -19,8 +19,10 @@ export default defineConfig({
   use: {
     /* Headed locally so you can watch, headless on CI */
     headless: process.env.CI ? true : false,
-    trace: "off",
-    video: "off",
+    /* Evidence for failed tests only, attached to the HTML report */
+    screenshot: "only-on-failure",
+    trace: "retain-on-failure",
+    video: "retain-on-failure",
   },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },

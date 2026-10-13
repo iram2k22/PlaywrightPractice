@@ -32,18 +32,24 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'npx playwright test'
+        // Failed tests shouldn't stop the pipeline here: the junit step in
+        // post marks the build UNSTABLE (yellow) instead of FAILED (red).
+        // Red is kept for real breakage, like npm ci failing or no report.
+        sh 'npx playwright test || true'
       }
     }
   }
 
   post {
     always {
-      junit testResults: 'reports/junit.xml', allowEmptyResults: true
-      archiveArtifacts artifacts: 'playwright-report/**, reports/**', allowEmptyArchive: true
-      // With the HTML Publisher plugin installed, uncomment to get a report link on the build page:
-      // publishHTML(target: [reportDir: 'playwright-report', reportFiles: 'index.html',
-      //                      reportName: 'Playwright Report', keepAll: true, alwaysLinkToLastBuild: true])
+      script {
+        def r = junit testResults: 'reports/junit.xml'
+        currentBuild.description = "${r.passCount} passed, ${r.failCount} failed, ${r.skipCount} skipped"
+      }
+      publishHTML(target: [reportDir: 'playwright-report', reportFiles: 'index.html',
+                           reportName: 'Playwright Report', keepAll: true,
+                           alwaysLinkToLastBuild: true, allowMissing: true])
+      archiveArtifacts artifacts: 'reports/**', allowEmptyArchive: true
     }
   }
 }
