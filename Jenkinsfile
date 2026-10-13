@@ -8,6 +8,11 @@ pipeline {
     CI = 'true'   // switches the config to headless, 5 workers, 1 retry
   }
 
+  triggers {
+    // Run every 5 minutes. H lets Jenkins pick the exact minute to spread load.
+    cron('H/5 * * * *')
+  }
+
   options {
     timeout(time: 30, unit: 'MINUTES')
     buildDiscarder(logRotator(numToKeepStr: '20'))
