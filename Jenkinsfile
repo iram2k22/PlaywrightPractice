@@ -46,6 +46,9 @@ pipeline {
         def r = junit testResults: 'reports/junit.xml'
         currentBuild.description = "${r.passCount} passed, ${r.failCount} failed, ${r.skipCount} skipped"
       }
+      // Allure dashboard with history and trend chart (Allure Jenkins plugin,
+      // Allure 3 CLI on the agent's PATH)
+      allure allureVersion: '3', results: [[path: 'allure-results']]
       publishHTML(target: [reportDir: 'playwright-report', reportFiles: 'index.html',
                            reportName: 'Playwright Report', keepAll: true,
                            alwaysLinkToLastBuild: true, allowMissing: true])

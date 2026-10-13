@@ -15,6 +15,25 @@ export default defineConfig({
     ["list"],
     /* Read by Jenkins' junit step for the test results page */
     ["junit", { outputFile: "reports/junit.xml" }],
+    /* Raw results for the Allure report that Jenkins builds after the run */
+    [
+      "allure-playwright",
+      {
+        resultsDir: "allure-results",
+        environmentInfo: {
+          "Base URL": "https://www.saucedemo.com",
+          Browser: "Chromium",
+          "Node.js": process.version,
+          Build: process.env.BUILD_NUMBER ?? "local",
+        },
+        // Sorts failures on the Categories tab
+        categories: [
+          { name: "Assertion failures (possible product bug)", matchedStatuses: ["failed"] },
+          { name: "Timeouts (slow page or wrong locator)", matchedStatuses: ["broken"], messageRegex: ".*[Tt]imeout.*" },
+          { name: "Other test errors", matchedStatuses: ["broken"] },
+        ],
+      },
+    ],
   ],
   use: {
     /* Headed locally so you can watch, headless on CI */
